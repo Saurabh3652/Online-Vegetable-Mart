@@ -27,7 +27,7 @@ const authUser = asyncHandler(async (req,res)=>{
 })
 
 const registerUser = asyncHandler(async (req,res)=>{
-    const{name,email,password} = req.body
+    const{name,email,password,isFarmer} = req.body
     const userExist = await User.findOne({email})
 
    if(userExist){
@@ -38,8 +38,9 @@ const registerUser = asyncHandler(async (req,res)=>{
    const user =await User.create ({
     name,
     email,
-    password
-   })
+    password,
+    isFarmer
+   }) 
 
    if(user){
         res.status(201).json({
@@ -110,10 +111,26 @@ const getUsers = asyncHandler(async (req,res)=>{
     res.json(users)
 })
 
+const deleteUser = asyncHandler(async (req,res)=>{
+    // console.log(req.user)
+    const user =await User.findById(req.params.id)
+    console.log("type of id")
+    console.log(user)
+    if(user){
+        await User.findByIdAndRemove(req.params.id)
+        res.json({message : "user removed"})
+    }
+    else{
+        res.status(404)
+        throw new Error('User Not found')
+    }
+})
+
 export {
     authUser,
     registerUser,
     getUserProfile,
     updateUserProfile,
-    getUsers
+    getUsers,
+    deleteUser
 }

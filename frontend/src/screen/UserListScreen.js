@@ -5,7 +5,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
 import {LinkContainer} from 'react-router-bootstrap'
-import { listUsers } from '../action/userActions.js'
+import { listUsers ,deleteUsers} from '../action/userActions.js'
 
 const UserListScreen = () => {
     const dispatch = useDispatch()
@@ -13,12 +13,15 @@ const UserListScreen = () => {
     const userList = useSelector((state)=>state.userList)
     const {loading ,error,users} =userList
 
+    const userDelete = useSelector((state)=>state.userDelete)
+    const {success:successDelete} =userDelete
+
     useEffect(()=>{
         dispatch(listUsers())
-    },[dispatch])
+    },[dispatch,successDelete])
 
     const deleteHandler= (id) =>{
-        console.log("delete")
+        dispatch(deleteUsers(id))
     }
   return (
     <>
@@ -52,9 +55,6 @@ const UserListScreen = () => {
                                     <i className='fas fa-edit'></i>
                                     </Button>
                                 </LinkContainer>
-                                <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(user._id)}>
-                                    <i className='fas fa-trash'></i>
-                                </Button>
                                 </td>
                             </td>
                         </tr>
