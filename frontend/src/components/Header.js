@@ -36,7 +36,19 @@ const Header = () => {
                 <Nav.Link><i className='fas fa-user'></i> Sign In</Nav.Link>
                 </LinkContainer>
             }
-            
+            {userInfo && userInfo.isFarmer && (
+               <NavDropdown title="Farmer" id='adminmenu'>
+               <LinkContainer to='/admin/userlist'>
+                 <NavDropdown.Item>Users</NavDropdown.Item>
+               </LinkContainer>
+               <LinkContainer to='/admin/veglist'>
+                 <NavDropdown.Item>Vegetables</NavDropdown.Item>
+               </LinkContainer>
+               <LinkContainer to='/admin/orderlist'>
+                 <NavDropdown.Item>Orders</NavDropdown.Item>
+               </LinkContainer>
+             </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
